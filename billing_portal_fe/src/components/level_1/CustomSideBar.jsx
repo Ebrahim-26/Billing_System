@@ -15,14 +15,16 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import PrintIcon from "@mui/icons-material/Print";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import PersonIcon from "@mui/icons-material/Person";
+import HandymanIcon from "@mui/icons-material/Handyman";
 
 function CustomSideBar() {
   const [open, setOpen] = useState(true);
   const [listData, setListData] = useState([
     { text: "Generate Invoice", icon: <PrintIcon /> },
     { text: "All Invoice", icon: <ReceiptIcon /> },
-    { text: "Client", icon: <PersonIcon /> },
-    { text: "Staff", icon: <Groups2Icon /> },
+    { text: "Services", icon: <HandymanIcon /> },
+    { text: "Clients", icon: <PersonIcon /> },
+    { text: "Staffs", icon: <Groups2Icon /> },
   ]);
   return (
     <div

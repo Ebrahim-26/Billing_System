@@ -71,9 +71,9 @@ class Invoice(models.Model):
     place = models.CharField(max_length=255)
     date = models.DateField()
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    service = models.ManyToManyField(Service, related_name='invoices')
+    services = models.ManyToManyField('ServiceInvoice', related_name='invoices')
     payment_mode = models.ForeignKey(PaymentMode, on_delete=models.SET_NULL, null=True)
-    payment_terms = models.ForeignKey(PaymentTerm, on_delete=models.SET_NULL, null=True)
+    payment_term = models.ForeignKey(PaymentTerm, on_delete=models.SET_NULL, null=True)
     estimated_completion_date = models.DateField()
     authorizer = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -91,3 +91,7 @@ class Invoice(models.Model):
         
         super().save(*args, **kwargs)
 
+class ServiceInvoice(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()

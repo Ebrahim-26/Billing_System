@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.cpython-*.pyc
+# Ignore Python cache files
+*.pyc
+
+*.pyo
+*.pyd
+.Python
+env.bak/
+venv.bak/
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+.media
+.static
+local_settings.py
+db.sqlite3-journal
+
+# virtualenv
+.venv
+venv/
+ENV/
+env
+
+Note
+.env
+*.csv

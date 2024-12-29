@@ -50,33 +50,21 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ['id', 'business_name', 'gst_number', 'user', 'contact_number', 'email', 'address', 'total_spend', 'business_domain', 'note']
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    client = ClientSerializer()
-    service = ServiceSerializer(many=True)
-    payment_mode = serializers.StringRelatedField()
-    payment_terms = serializers.StringRelatedField()
-    authorizer = AuthorizerSerializer()
+    client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.all())
+    service = serializers.PrimaryKeyRelatedField(many=True, queryset=Service.objects.all())
+    payment_mode = serializers.PrimaryKeyRelatedField(queryset=PaymentMode.objects.all())
+    payment_terms = serializers.PrimaryKeyRelatedField(queryset=PaymentTerm.objects.all())
+    authorizer = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
+
     
     class Meta:
         model = Invoice
-        fields = ['id', 'number', 'client', 'service', 'payment_mode', 'payment_terms', 'estimated_completion_date', 'authorizer', 'total_amount', 'amount_paid', 'status']
+        fields = ['id', 'number', 'client', 'service', 'payment_mode', 'payment_terms', 'estimated_completion_date', 'authorizer', 'total_amount', 'amount_paid', 'status', 'date']
+    
 
 class BusinessDomainSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessDomain
         fields = ['id', 'name']
 
-class DropdownDataSerializer(serializers.Serializer):
-    payment_terms = PaymentTermSerializer(many=True)
-    payment_modes = PaymentModeSerializer(many=True)
-    clients = ClientSerializer(many=True)
 
-    def to_representation(self, instance):
-        # Custom data fetching logic
-        data = super().to_representation(instance)
-        
-        # You can fetch data here for dropdowns
-        data['payment_terms'] = PaymentTerm.objects.all()
-        data['payment_modes'] = PaymentMode.objects.all()
-        data['clients'] = Client.objects.all().values('id', 'user__name')
-        
-        return data

@@ -47,7 +47,7 @@ class ClientSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
     class Meta:
         model = Client
-        fields = ['id', 'business_name', 'gst_number', 'user', 'contact_number', 'email', 'address', 'total_spend', 'business_domain', 'note']
+        fields = ['id', 'name', 'gst_number', 'user', 'contact_number', 'email', 'address', 'total_spend', 'business_domain', 'note']
 
 class InvoiceSerializer(serializers.ModelSerializer):
     client = ClientSerializer()

@@ -1,39 +1,82 @@
 from rest_framework import viewsets
-from .models import Client, Invoice, Service, Employee, PaymentMode, PaymentTerm, Address, BusinessDomain
-from .serializers import ClientSerializer, InvoiceSerializer, ServiceSerializer, EmployeeSerializer, PaymentModeSerializer, AddressSerializer, BusinessDomainSerializer, PaymentTermSerializer
+from .models import Client, Invoice, Service, Employee, PaymentMode, PaymentTerm, BusinessDomain, Designation
+from .serializers import ClientSerializer, InvoiceSerializer, ServiceSerializer, EmployeeSerializer, PaymentModeSerializer, ClientListSerializer, InvoiceListSerializer, PaymentTermSerializer, EmployeeListSerializer, ServiceListSerializer, BusinessDomainSerializer, DesignationSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import F
+
 
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
-    serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','patch']
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ClientListSerializer
+        return ClientSerializer
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
-    serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete']
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return InvoiceListSerializer
+        return InvoiceSerializer
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','put']
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ServiceListSerializer
+        return ServiceSerializer
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','patch']
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return EmployeeListSerializer
+        return EmployeeSerializer
 
 class PaymentModeViewSet(viewsets.ModelViewSet):
     queryset = PaymentMode.objects.all()
     serializer_class = PaymentModeSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','put']
 
 
 class PaymentTermViewSet(viewsets.ModelViewSet):
     queryset = PaymentTerm.objects.all()
     serializer_class = PaymentTermSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','put']
+
+
+class DesignationViewSet(viewsets.ModelViewSet):
+    queryset = Designation.objects.all()
+    serializer_class = DesignationSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','put']
+
+
+class BusinessDomainViewSet(viewsets.ModelViewSet):
+    queryset = BusinessDomain.objects.all()
+    serializer_class = BusinessDomainSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','delete','put']
 
 
 
@@ -50,6 +93,7 @@ class InvoiceDropdownDataView(APIView):
         payment_modes = PaymentMode.objects.all().values()  
         clients = Client.objects.all().values('id', 'name') 
         services = Service.objects.filter(is_available=True).values('id', 'name','cost')
+        authorizers = Employee.objects.filter(is_authorizer = True).annotate(name=F('user__name')).values('id','name')
 
         data = {
             'invoice_number': str(latest_invoice_number).zfill(3),
@@ -57,6 +101,7 @@ class InvoiceDropdownDataView(APIView):
             'payment_modes': list(payment_modes),
             'clients': list(clients),
             'services': list(services),
+            'authorizer': list(authorizers)
 
         }
 

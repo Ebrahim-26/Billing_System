@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from .models import Client, Invoice, Service, Employee, PaymentMode, PaymentTerm, Address, BusinessDomain
-from .serializers import ClientSerializer, InvoiceSerializer, ServiceSerializer, EmployeeSerializer, PaymentModeSerializer, AddressSerializer, BusinessDomainSerializer,DropdownDataSerializer, PaymentTermSerializer
+from .serializers import ClientSerializer, InvoiceSerializer, ServiceSerializer, EmployeeSerializer, PaymentModeSerializer, AddressSerializer, BusinessDomainSerializer, PaymentTermSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated

@@ -20,7 +20,7 @@ class CustomUser(models.Model):
     address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
 
 class Client(models.Model):
-    business_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     gst_number = models.CharField(max_length=15)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     contact_number = models.CharField(max_length=15)

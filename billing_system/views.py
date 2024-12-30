@@ -43,14 +43,16 @@ class InvoiceDropdownDataView(APIView):
     def get(self, request):
         latest_invoice = Invoice.objects.order_by('-id').first()
         if not latest_invoice:
-            latest_invoice = 0
+            latest_invoice_number = 1
+        else:
+            latest_invoice_number = latest_invoice.id + 1
         payment_terms = PaymentTerm.objects.all().values()  
         payment_modes = PaymentMode.objects.all().values()  
-        clients = Client.objects.all().values('id', 'business_name') 
+        clients = Client.objects.all().values('id', 'name') 
         services = Service.objects.filter(is_available=True).values('id', 'name','cost')
 
         data = {
-            'invoice_number': str(latest_invoice.id + 1).zfill(3),
+            'invoice_number': str(latest_invoice_number).zfill(3),
             'payment_terms': list(payment_terms),
             'payment_modes': list(payment_modes),
             'clients': list(clients),

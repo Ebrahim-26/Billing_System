@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ClientViewSet, InvoiceViewSet, ServiceViewSet, EmployeeViewSet, PaymentModeViewSet, PaymentTermViewSet, InvoiceDropdownDataView
+from .views import ClientViewSet, InvoiceViewSet, ServiceViewSet, EmployeeViewSet, PaymentModeViewSet, PaymentTermViewSet, InvoiceDropdownDataView, DesignationViewSet, BusinessDomainViewSet
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -27,6 +27,8 @@ router.register(r'services', ServiceViewSet)
 router.register(r'employees', EmployeeViewSet)
 router.register(r'payment_modes', PaymentModeViewSet)
 router.register(r'payment_terms', PaymentTermViewSet)
+router.register(r'designation', DesignationViewSet)
+router.register(r'business_domain', BusinessDomainViewSet)
 
 
 urlpatterns = [

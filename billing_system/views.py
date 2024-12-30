@@ -50,7 +50,7 @@ class InvoiceDropdownDataView(APIView):
         services = Service.objects.filter(is_available=True).values('id', 'name','cost')
 
         data = {
-            'invoice_number': str(latest_invoice + 1).zfill(3),
+            'invoice_number': str(latest_invoice.id + 1).zfill(3),
             'payment_terms': list(payment_terms),
             'payment_modes': list(payment_modes),
             'clients': list(clients),

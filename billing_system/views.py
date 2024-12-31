@@ -5,7 +5,38 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import F
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.response import Response
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 
+class SessionAuthViewSet(viewsets.ViewSet):
+    """
+    A ViewSet for session-based login/logout.
+    """
+
+    @action(detail=False, methods=['post'], url_path='login')
+    def login(self, request):
+        """
+        Handles user login using session authentication.
+        """
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    @action(detail=False, methods=['post'], url_path='logout')
+    def logout(self, request):
+        """
+        Handles user logout.
+        """
+        logout(request)
+        return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
 
 
 class ClientViewSet(viewsets.ModelViewSet):

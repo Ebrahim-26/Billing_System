@@ -20,13 +20,13 @@ function CustomSelectField({
         options={data}
         disabled={disabled}
         onChange={handleChange}
-        getOptionLabel={(item) => item}
+        getOptionLabel={(item) => item.name}
         renderOption={(props, item) => {
           const { key, ...restProps } = props;
           return (
-            <li key={item} {...restProps}>
+            <li key={item.id} {...restProps}>
               {" "}
-              {item}
+              {item.name}
             </li>
           );
         }}
@@ -41,13 +41,13 @@ function CustomSelectField({
                 color: "black",
               },
               "& label.Mui-focused": {
-                color: "black", 
+                color: "black",
               },
               borderRadius: "12px",
               "& .MuiOutlinedInput-root": {
-                borderRadius: { borderRadius }, 
+                borderRadius: { borderRadius },
                 "&.Mui-focused fieldset": {
-                  borderColor: "black", 
+                  borderColor: "black",
                 },
               },
             }}

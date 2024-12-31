@@ -21,20 +21,20 @@ export default function CustomSelect({
         fullWidth
         sx={{
           "& .MuiInputLabel-root": {
-            color: "grey", 
+            color: "grey",
           },
           "& .MuiInputLabel-root.Mui-focused": {
-            color: "black", 
+            color: "black",
           },
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: "grey", 
+              borderColor: "grey",
             },
             "&:hover fieldset": {
-              borderColor: "#1f1f1f", 
+              borderColor: "#1f1f1f",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "black", 
+              borderColor: "black",
             },
           },
         }}
@@ -47,9 +47,9 @@ export default function CustomSelect({
           label={label}
           onChange={handleChange}
         >
-          {data.map((item, index) => (
-            <MenuItem key={index} value={item.value}>
-              {item.label}
+          {data?.map((item, index) => (
+            <MenuItem key={index} value={item.id}>
+              {item.name}
             </MenuItem>
           ))}
         </Select>

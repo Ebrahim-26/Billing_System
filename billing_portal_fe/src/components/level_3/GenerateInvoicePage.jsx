@@ -7,45 +7,130 @@ import CustomButton from "../level_1/CustomButton";
 import CustomSelect from "../level_1/CustomSelect";
 import CustomDatePicker from "../level_1/CustomDatePicker";
 import CustomTextField from "../level_1/CustomTextField";
+import dayjs from "dayjs";
+import axios from "axios";
 
 function GenerateInvoicePage() {
-  const [selectedClient, setSelectedClient] = useState();
   const [selectedService, setSelectedService] = useState();
-  const [paymentMode, setPaymentMode] = useState("upi");
-  const [paymentTerm, setPaymentTerm] = useState("Post Payment");
-  const [selectedAuthorizer, setSelectedAuthorizer] = useState("Ebrahim");
+  const [paymentMode, setPaymentMode] = useState();
+  const [paymentTerm, setPaymentTerm] = useState();
+  const [selectedAuthorizer, setSelectedAuthorizer] = useState();
+  const [selectedClient, setSelectedClient] = useState();
   const [counter, setCounter] = useState(1);
-  const [date, setData] = useState();
+  const [date, setDate] = useState(dayjs());
   const [estimationDate, setEstimationDate] = useState();
   const [selectedServiceList, setSelectedServiceList] = useState([]);
-  const clientNames = [
-    "Alice Johnson",
-    "Bob Smith",
-    "Catherine Davis",
-    "Daniel Brown",
-    "Emily Wilson",
-    "Frank Thompson",
-    "Grace Lee",
-    "Henry Miller",
-    "Isabella Garcia",
-    "Jack Martinez",
-  ];
+  const [generateResponse, setGenerateResponse] = useState();
+  const [generate, setGenerate] = useState(false);
+  const [paidAmount, setPaidAmount] = useState();
+  const [due, setDue] = useState();
+  //Data from Api
+  const [invoiceDropdownData, setInvoiceDropdownData] = useState();
+  const [serviceLoad, setServiceLoad] = useState([]);
+
+  function generateInitials(name) {
+    if (!name) return "";
+    const words = name.trim().split(" ");
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase();
+    } else {
+      return words[0][0].toUpperCase() + words[1][0].toUpperCase();
+    }
+  }
   useEffect(() => {
-    setSelectedService(null);
-  }, [setSelectedService]);
-  const services = ["Elite", "Premium", "Basic"];
-  const paymentModes = [
-    { value: "upi", label: "UPI" },
-    { value: "cash", label: "Cash" },
-  ];
-  const paymentTerms = [
-    { value: "Pre Payment", label: "Pre Payment" },
-    { value: "Post Payment", label: "Post Payment" },
-  ];
-  const authorizer = [
-    { value: "Ebrahim", label: "Ebrahim" },
-    { value: "Shahil", label: "Shahil" },
-  ];
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/get-invoice-fields/"
+        );
+        setInvoiceDropdownData(response.data);
+      } catch (error) {
+        console.error("Error posting data:", error);
+      } finally {
+      }
+    };
+    fetchData();
+  }, []);
+
+  const [apiData, setApiData] = useState({
+    number: null,
+    date: null,
+    client_id: null,
+    service_details: null,
+    payment_mode_id: null,
+    payment_term_id: null,
+    estimated_completion_date: null,
+    authorizer_id: null,
+    total_amount: "0.00",
+    status: "unsettled",
+  });
+
+  useEffect(() => {
+    const calculateTotalAmount = () => {
+      const total = selectedServiceList.reduce(
+        (sum, service) => sum + service.cost * service.quantity,
+        0
+      );
+      setApiData((prevState) => ({
+        ...prevState,
+        total_amount: total.toFixed(2), // Ensuring two decimal points
+      }));
+    };
+
+    calculateTotalAmount();
+  }, [selectedServiceList]);
+
+  useEffect(() => {
+    if (invoiceDropdownData && selectedClient) {
+      setApiData((prevState) => ({
+        ...prevState,
+        number: `${generateInitials(selectedClient?.name)}${
+          invoiceDropdownData.invoice_number
+        }`,
+        date: date?.format("YYYY-MM-DD"),
+        client_id: selectedClient.id,
+        service_details: serviceLoad,
+        payment_mode_id: paymentMode,
+        payment_term_id: paymentTerm,
+        estimated_completion_date: estimationDate?.format("YYYY-MM-DD"),
+        authorizer_id: selectedAuthorizer,
+      }));
+    }
+  }, [
+    invoiceDropdownData,
+    selectedClient,
+    date,
+    serviceLoad,
+    paymentMode,
+    paymentTerm,
+    estimationDate,
+    selectedAuthorizer,
+  ]);
+
+  useEffect(() => {
+    setApiData((prevState) => ({
+      ...prevState,
+      amount_paid: paidAmount || "0.00", // Update amount_paid when paidAmount changes
+    }));
+  }, [paidAmount]);
+
+  useEffect(() => {
+    if (generate === true) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.post(
+            "http://localhost:8000/api/invoices/",
+            apiData
+          );
+          setGenerateResponse(response.data);
+        } catch (error) {
+          console.error("Error posting data:", error);
+        } finally {
+        }
+      };
+      fetchData();
+    }
+  }, [generate]);
 
   return (
     <div className="p-10 w-[100%]">
@@ -54,14 +139,16 @@ function GenerateInvoicePage() {
           id="filled-basic"
           label="Invoice Number"
           variant="filled"
+          value={apiData?.number || ""}
+          readOnly
         />
-        <CustomDatePicker label="Date" value={date} setSelectedData={setData} />
+        <CustomDatePicker label="Date" value={date} setSelectedData={setDate} />
       </div>
       <div className="my-5 ">
         <CustomAutoCompleteField
           setSelectedData={setSelectedClient}
           label="Select Clients"
-          data={clientNames}
+          data={invoiceDropdownData?.clients}
         />
       </div>
       <div>
@@ -70,7 +157,7 @@ function GenerateInvoicePage() {
             <CustomAutoCompleteField
               setSelectedData={setSelectedService}
               label="Services"
-              data={services}
+              data={invoiceDropdownData?.services}
             />
           </div>
           <CustomCounter counter={counter} setCounter={setCounter} />
@@ -80,7 +167,16 @@ function GenerateInvoicePage() {
                 setSelectedServiceList((prev) => [
                   ...prev,
                   {
-                    service: selectedService,
+                    service_id: selectedService.id,
+                    quantity: counter,
+                    cost: selectedService.cost,
+                    name: selectedService.name,
+                  },
+                ]);
+                setServiceLoad((prev) => [
+                  ...prev,
+                  {
+                    service_id: selectedService.id,
                     quantity: counter,
                   },
                 ]);
@@ -98,7 +194,7 @@ function GenerateInvoicePage() {
               <>
                 <div className="flex gap-4 my-2">
                   <div className="text-slate-900 bg-slate-200 rounded-md p-4 w-[20%] text-center">
-                    {item.service}
+                    {item.name}
                   </div>
                   <div className="text-slate-200 bg-slate-600 rounded-md p-4 w-[5rem] text-center">
                     {item.quantity}
@@ -113,7 +209,7 @@ function GenerateInvoicePage() {
         <div className="w-[100%]">
           <CustomSelect
             setSelectedData={(newValue) => setPaymentMode(newValue)}
-            data={paymentModes}
+            data={invoiceDropdownData?.payment_modes}
             label="Payment Mode"
             selectedData={paymentMode}
           />
@@ -121,7 +217,7 @@ function GenerateInvoicePage() {
         <div className="w-[100%]">
           <CustomSelect
             setSelectedData={setPaymentTerm}
-            data={paymentTerms}
+            data={invoiceDropdownData?.payment_terms}
             label="Payment Term"
             selectedData={paymentTerm}
           />
@@ -137,7 +233,7 @@ function GenerateInvoicePage() {
       <div className="my-5">
         <CustomSelect
           setSelectedData={setSelectedAuthorizer}
-          data={authorizer}
+          data={invoiceDropdownData?.authorizer}
           label="Authorized By"
           selectedData={selectedAuthorizer}
         />
@@ -146,8 +242,10 @@ function GenerateInvoicePage() {
         <CustomTextField
           type="number"
           id="filled-basic"
-          label="Amount" 
+          label="Amount"
           variant="filled"
+          value={apiData.total_amount}
+          readOnly
         />
 
         <CustomTextField
@@ -155,16 +253,31 @@ function GenerateInvoicePage() {
           id="filled-basic"
           label="Paid"
           variant="filled"
+          setValue={(value) => {
+            const sanitizedValue = parseFloat(value) || 0; // Ensure value is a valid number
+            if (sanitizedValue <= parseFloat(apiData.total_amount)) {
+              setPaidAmount(sanitizedValue); // Only set if within the total amount
+            } else {
+              alert("Paid amount cannot exceed the total amount."); // Optional alert for user feedback
+            }
+          }}
+          value={paidAmount}
         />
         <CustomTextField
           type="number"
           id="filled-basic"
           label="Due"
           variant="filled"
+          value={
+            parseFloat(apiData.total_amount) - (parseFloat(paidAmount) || 0)
+          } 
+          readOnly
         />
       </div>
       <div className="bg-slate-500 mt-5 h-[5rem]  rounded-sm ">
-        <CustomButton sx={{ color: "white" }}>Generate</CustomButton>
+        <CustomButton sx={{ color: "white" }} onClick={() => setGenerate(true)}>
+          Generate
+        </CustomButton>
       </div>
     </div>
   );

@@ -1,0 +1,89 @@
+"use client";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import CustomTextField from "../level_1/CustomTextField";
+import { useState, useEffect } from "react";
+import { Margin } from "@mui/icons-material";
+import CustomButton from "../level_1/CustomButton";
+import axios from "axios";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30rem",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "5px",
+};
+
+export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [open, setOpen] = useState(true);
+  const [postResponse, setPostResponse] = useState();
+  const [login, setLogin] = useState();
+  useEffect(() => {
+    if (postResponse && postResponse.status === 200) {
+      setOpen(false);
+    }
+  }, [postResponse]);
+  useEffect(() => {
+    if (username != "" && password != "") {
+      const fetchData = async () => {
+        const postData = { username: username, password: password };
+        try {
+          const response = await axios.post(
+            "http://localhost:8000/api/auth/login/",
+            postData
+          );
+          setPostResponse(response);
+        } catch (error) {
+          console.error("Error posting data:", error);
+        } finally {
+        }
+      };
+      fetchData();
+    }
+  }, [login]);
+  console.log("POST RES:", postResponse);
+  return (
+    <form>
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div className=" flex flex-col gap-y-[1rem]">
+            <div>
+              <CustomTextField
+                label="username"
+                value={username}
+                setValue={setUsername}
+              />
+            </div>
+            <div>
+              <CustomTextField
+                label="password"
+                type="password"
+                value={password}
+                setValue={setPassword}
+              />
+            </div>
+            <CustomButton
+              sx={{ backgroundColor: "grey", color: "white" }}
+              onClick={() => setLogin(true)}
+            >
+              Login
+            </CustomButton>
+          </div>
+        </Box>
+      </Modal>
+    </form>
+  );
+}

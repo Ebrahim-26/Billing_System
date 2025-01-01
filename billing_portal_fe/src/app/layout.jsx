@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import CustomSideBar from "@/components/level_1/CustomSideBar";
+import LoginForm from "@/components/level_2/LoginForm";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <div>
             <CustomSideBar />
           </div>
+          <LoginForm/>
           <div className="w-[100%] h-[100%]">{children}</div>
         </div>
       </body>

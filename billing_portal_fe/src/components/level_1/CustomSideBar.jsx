@@ -16,15 +16,17 @@ import PrintIcon from "@mui/icons-material/Print";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import PersonIcon from "@mui/icons-material/Person";
 import HandymanIcon from "@mui/icons-material/Handyman";
+import { useRouter } from "next/navigation";
 
 function CustomSideBar() {
+  const Router = useRouter();
   const [open, setOpen] = useState(true);
   const [listData, setListData] = useState([
-    { text: "Generate Invoice", icon: <PrintIcon /> },
-    { text: "All Invoice", icon: <ReceiptIcon /> },
-    { text: "Services", icon: <HandymanIcon /> },
-    { text: "Clients", icon: <PersonIcon /> },
-    { text: "Staffs", icon: <Groups2Icon /> },
+    { text: "Generate Invoice", icon: <PrintIcon />, link: "/" },
+    { text: "All Invoice", icon: <ReceiptIcon />, link: "all-invoices" },
+    { text: "Services", icon: <HandymanIcon />, link: "services" },
+    { text: "Clients", icon: <PersonIcon />, link: "clients" },
+    { text: "Staffs", icon: <Groups2Icon />, link: "staffs" },
   ]);
   return (
     <div
@@ -57,6 +59,7 @@ function CustomSideBar() {
             <div key={index}>
               <ListItem disablePadding>
                 <ListItemButton
+                  onClick={() => Router.push(`/${item.link}`)}
                   className="transition-all flex items-center gap-4"
                   style={{
                     justifyContent: "flex-start",

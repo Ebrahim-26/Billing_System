@@ -9,8 +9,10 @@ import CustomDatePicker from "../level_1/CustomDatePicker";
 import CustomTextField from "../level_1/CustomTextField";
 import dayjs from "dayjs";
 import axios from "axios";
+import { useGlobal } from "@/context/GlobalContext";
 
 function GenerateInvoicePage() {
+  const { loginOpen } = useGlobal();
   const [selectedService, setSelectedService] = useState();
   const [paymentMode, setPaymentMode] = useState();
   const [paymentTerm, setPaymentTerm] = useState();
@@ -23,7 +25,6 @@ function GenerateInvoicePage() {
   const [generateResponse, setGenerateResponse] = useState();
   const [generate, setGenerate] = useState(false);
   const [paidAmount, setPaidAmount] = useState();
-  const [due, setDue] = useState();
   //Data from Api
   const [invoiceDropdownData, setInvoiceDropdownData] = useState();
   const [serviceLoad, setServiceLoad] = useState([]);
@@ -50,7 +51,7 @@ function GenerateInvoicePage() {
       }
     };
     fetchData();
-  }, []);
+  }, [loginOpen]);
 
   const [apiData, setApiData] = useState({
     number: null,
@@ -67,13 +68,14 @@ function GenerateInvoicePage() {
 
   useEffect(() => {
     const calculateTotalAmount = () => {
+      //Funtion to calculate Total amount from the selected services
       const total = selectedServiceList.reduce(
         (sum, service) => sum + service.cost * service.quantity,
         0
       );
       setApiData((prevState) => ({
         ...prevState,
-        total_amount: total.toFixed(2), // Ensuring two decimal points
+        total_amount: total.toFixed(2),
       }));
     };
 
@@ -89,7 +91,6 @@ function GenerateInvoicePage() {
         }`,
         date: date?.format("YYYY-MM-DD"),
         client_id: selectedClient.id,
-        service_details: serviceLoad,
         payment_mode_id: paymentMode,
         payment_term_id: paymentTerm,
         estimated_completion_date: estimationDate?.format("YYYY-MM-DD"),
@@ -100,19 +101,25 @@ function GenerateInvoicePage() {
     invoiceDropdownData,
     selectedClient,
     date,
-    serviceLoad,
     paymentMode,
     paymentTerm,
     estimationDate,
     selectedAuthorizer,
   ]);
 
-  useEffect(() => {
+  useEffect(() => { //To updated the total amount to the apiData
     setApiData((prevState) => ({
       ...prevState,
-      amount_paid: paidAmount || "0.00", // Update amount_paid when paidAmount changes
+      amount_paid: paidAmount || "0.00",
     }));
   }, [paidAmount]);
+
+  useEffect(() => {// To updated the selected service to the apiData
+    setApiData((prevState) => ({
+      ...prevState,
+      service_details: [...serviceLoad], 
+    }));
+  }, [serviceLoad]);
 
   useEffect(() => {
     if (generate === true) {
@@ -131,7 +138,7 @@ function GenerateInvoicePage() {
       fetchData();
     }
   }, [generate]);
-
+  
   return (
     <div className="p-10 w-[100%]">
       <div className="flex gap-5 w-[100%]">
@@ -190,17 +197,29 @@ function GenerateInvoicePage() {
         </div>
         {selectedServiceList && (
           <div className="gap-y-2 rounded-md">
-            {selectedServiceList.map((item) => (
-              <>
-                <div className="flex gap-4 my-2">
-                  <div className="text-slate-900 bg-slate-200 rounded-md p-4 w-[20%] text-center">
-                    {item.name}
-                  </div>
-                  <div className="text-slate-200 bg-slate-600 rounded-md p-4 w-[5rem] text-center">
-                    {item.quantity}
-                  </div>
+            {selectedServiceList.map((item, index) => (
+              <div key={index} className="flex gap-4 my-2">
+                <div className="text-slate-900 bg-slate-200 rounded-md p-4 w-[20%] text-center">
+                  {item.name}
                 </div>
-              </>
+                <div className="text-slate-200 bg-slate-600 rounded-md p-4 w-[5rem] text-center">
+                  {item.quantity}
+                </div>
+                <CustomButton
+                  onClick={() => {
+                    setSelectedServiceList((prevList) =>
+                      prevList.filter((_, i) => i !== index)
+                    );
+
+                    setServiceLoad((prevLoad) =>
+                      prevLoad.filter((_, i) => i !== index)
+                    );
+                  }}
+                  sx={{ backgroundColor: "red", color: "white" }}
+                >
+                  Delete
+                </CustomButton>
+              </div>
             ))}
           </div>
         )}
@@ -270,7 +289,7 @@ function GenerateInvoicePage() {
           variant="filled"
           value={
             parseFloat(apiData.total_amount) - (parseFloat(paidAmount) || 0)
-          } 
+          }
           readOnly
         />
       </div>

@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import CustomTextField from "../level_1/CustomTextField";
 import { useState, useEffect } from "react";
-import { Margin } from "@mui/icons-material";
 import CustomButton from "../level_1/CustomButton";
 import axios from "axios";
+import { useGlobal } from "@/context/GlobalContext";
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,21 +21,30 @@ const style = {
 };
 
 export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { loginOpen, setLoginOpen, user, setUser } = useGlobal();
 
-  const [open, setOpen] = useState(true);
   const [postResponse, setPostResponse] = useState();
   const [login, setLogin] = useState();
+
   useEffect(() => {
-    if (postResponse && postResponse.status === 200) {
-      setOpen(false);
+    if (user.isLoggedIn === true) {
+      setLoginOpen(false);
+    }
+  }, [user.isLoggedIn]);
+
+  useEffect(() => {
+    if (user.isLoggedIn === false) {
+      if (postResponse && postResponse.status === 200) {
+        setUser((prev) => ({ ...prev, isLoggedIn: true }));
+        // setLoginOpen(false);
+      }
     }
   }, [postResponse]);
+
   useEffect(() => {
-    if (username != "" && password != "") {
+    if (user.username != "" && user.password != "") {
       const fetchData = async () => {
-        const postData = { username: username, password: password };
+        const postData = { username: user.username, password: user.password };
         try {
           const response = await axios.post(
             "http://localhost:8000/api/auth/login/",
@@ -50,11 +59,10 @@ export default function LoginForm() {
       fetchData();
     }
   }, [login]);
-  console.log("POST RES:", postResponse);
   return (
     <form>
       <Modal
-        open={open}
+        open={loginOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -63,16 +71,20 @@ export default function LoginForm() {
             <div>
               <CustomTextField
                 label="username"
-                value={username}
-                setValue={setUsername}
+                value={user.username}
+                setValue={(newValue) =>
+                  setUser((prevUser) => ({ ...prevUser, username: newValue }))
+                }
               />
             </div>
             <div>
               <CustomTextField
                 label="password"
                 type="password"
-                value={password}
-                setValue={setPassword}
+                value={user.password}
+                setValue={(newValue) =>
+                  setUser((prevUser) => ({ ...prevUser, password: newValue }))
+                }
               />
             </div>
             <CustomButton

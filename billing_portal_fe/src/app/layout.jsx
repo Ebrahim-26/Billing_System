@@ -1,8 +1,8 @@
-import localFont from "next/font/local";
 import "./globals.css";
+import localFont from "next/font/local";
 import CustomSideBar from "@/components/level_1/CustomSideBar";
 import LoginForm from "@/components/level_2/LoginForm";
-
+import { GlobalProvider } from "@/context/GlobalContext";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -25,13 +25,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex">
-          <div>
-            <CustomSideBar />
+        <GlobalProvider>
+          <div className="flex">
+            <div>
+              <CustomSideBar />
+            </div>
+            <LoginForm />
+            <div className="w-[100%] h-[100%]">{children}</div>
           </div>
-          <LoginForm/>
-          <div className="w-[100%] h-[100%]">{children}</div>
-        </div>
+        </GlobalProvider>
       </body>
     </html>
   );

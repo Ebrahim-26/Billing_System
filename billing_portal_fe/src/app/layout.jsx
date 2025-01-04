@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
             <div>
               <CustomSideBar />
             </div>
-            {/* <LoginForm /> */}
+            <LoginForm />
             <div className="w-[100%] h-[100%]">{children}</div>
           </div>
         </GlobalProvider>

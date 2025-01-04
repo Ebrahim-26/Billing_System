@@ -138,9 +138,27 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
-SESSION_COOKIE_NAME = 'sessionid' 
-SESSION_COOKIE_AGE = 1209600  
-SESSION_COOKIE_SECURE = True  
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False 
-SESSION_SAVE_EVERY_REQUEST = False 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    "x-csrftoken",
+    "Access-Control-Allow-Origin",
+]
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [ 
+        'http://localhost:3000', 
+]
+
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True

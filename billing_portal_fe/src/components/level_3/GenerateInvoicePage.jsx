@@ -42,7 +42,10 @@ function GenerateInvoicePage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/get-invoice-fields/"
+          "http://localhost:8000/api/get-invoice-fields/",
+          {
+            withCredentials: true,
+          }
         );
         setInvoiceDropdownData(response.data);
       } catch (error) {
@@ -107,17 +110,19 @@ function GenerateInvoicePage() {
     selectedAuthorizer,
   ]);
 
-  useEffect(() => { //To updated the total amount to the apiData
+  useEffect(() => {
+    //To updated the total amount to the apiData
     setApiData((prevState) => ({
       ...prevState,
       amount_paid: paidAmount || "0.00",
     }));
   }, [paidAmount]);
 
-  useEffect(() => {// To updated the selected service to the apiData
+  useEffect(() => {
+    // To updated the selected service to the apiData
     setApiData((prevState) => ({
       ...prevState,
-      service_details: [...serviceLoad], 
+      service_details: [...serviceLoad],
     }));
   }, [serviceLoad]);
 
@@ -138,7 +143,7 @@ function GenerateInvoicePage() {
       fetchData();
     }
   }, [generate]);
-  
+
   return (
     <div className="p-10 w-[100%]">
       <div className="flex gap-5 w-[100%]">

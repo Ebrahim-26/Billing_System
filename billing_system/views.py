@@ -41,7 +41,7 @@ class SessionAuthViewSet(viewsets.ViewSet):
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','patch']
 
     def get_serializer_class(self):
@@ -52,7 +52,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete']
 
     def get_serializer_class(self):
@@ -63,7 +63,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','put']
 
     def get_serializer_class(self):
@@ -74,7 +74,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','patch']
 
     def get_serializer_class(self):
@@ -85,34 +85,34 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class PaymentModeViewSet(viewsets.ModelViewSet):
     queryset = PaymentMode.objects.all()
     serializer_class = PaymentModeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','put']
 
 
 class PaymentTermViewSet(viewsets.ModelViewSet):
     queryset = PaymentTerm.objects.all()
     serializer_class = PaymentTermSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','put']
 
 
 class DesignationViewSet(viewsets.ModelViewSet):
     queryset = Designation.objects.all()
     serializer_class = DesignationSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','put']
 
 
 class BusinessDomainViewSet(viewsets.ModelViewSet):
     queryset = BusinessDomain.objects.all()
     serializer_class = BusinessDomainSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','delete','put']
 
 
 
 class InvoiceDropdownDataView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         latest_invoice = Invoice.objects.order_by('-id').first()

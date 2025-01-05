@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Divider from "@mui/material/Divider";
@@ -20,7 +20,13 @@ import { useRouter } from "next/navigation";
 
 function CustomSideBar() {
   const Router = useRouter();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => {
+    const storedState = localStorage.getItem("sideBar");
+    return storedState !== null ? JSON.parse(storedState) : true; 
+  });
+  useEffect(() => {
+    localStorage.setItem("sideBar", JSON.stringify(open));
+  }, [open]);
   const [listData, setListData] = useState([
     { text: "Generate Invoice", icon: <PrintIcon />, link: "/" },
     { text: "All Invoice", icon: <ReceiptIcon />, link: "all-invoices" },

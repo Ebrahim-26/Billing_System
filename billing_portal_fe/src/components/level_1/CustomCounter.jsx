@@ -10,6 +10,7 @@ function CustomCounter({ setCounter, counter }) {
   return (
     <div className="flex items-center justify-center   border border-[#9a9b9e] rounded-sm ">
       <button
+        type="button"
         onClick={decrement}
         className="text-lg font-semibold text-black px-2 m-1 hover:bg-slate-100 border-1 border-black rounded-md"
       >
@@ -22,6 +23,7 @@ function CustomCounter({ setCounter, counter }) {
         className="text-center text-lg font-semibold border border-gray-300 rounded-lg w-16"
       />
       <button
+        type="button"
         onClick={increment}
         className="text-lg font-semibold text-black px-2 m-1 hover:bg-slate-400 border-1 border-black rounded-md"
       >

@@ -3,60 +3,11 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { ListItemButton } from "@mui/material";
-
+import { useRouter } from "next/navigation";
 function page() {
+  const router = useRouter();
   const [allInvoiceData, setAllInvoiceData] = useState();
-  //Dummy Data
-  const apiData = [
-    {
-      id: 1,
-      number: "SM001",
-      client_name: "Shahil Malik",
-      total_amount: "200.00",
-      status: "unsettled",
-      due: null,
-    },
-    {
-      id: 2,
-      number: "DE002",
-      client_name: "Desire",
-      total_amount: "1500.00",
-      status: "unsettled",
-      due: 1,
-    },
-    {
-      id: 1,
-      number: "SM001",
-      client_name: "Shahil Malik",
-      total_amount: "200.00",
-      status: "unsettled",
-      due: null,
-    },
-    {
-      id: 2,
-      number: "DE002",
-      client_name: "Desire",
-      total_amount: "1500.00",
-      status: "unsettled",
-      due: 1,
-    },
-    {
-      id: 1,
-      number: "SM001",
-      client_name: "Shahil Malik",
-      total_amount: "200.00",
-      status: "unsettled",
-      due: null,
-    },
-    {
-      id: 2,
-      number: "DE002",
-      client_name: "Desire",
-      total_amount: "1500.00",
-      status: "unsettled",
-      due: 1,
-    },
-  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -80,8 +31,9 @@ function page() {
           <div className="flex-1 text-center">Status</div>
         </div>
         <div className="flex flex-col">
-          {apiData.map((item, index) => (
+          {allInvoiceData?.map((item, index) => (
             <ListItemButton
+              onClick={() => router.push(`/invoice/${item.id}`)}
               key={index}
               className="flex bg-slate-200 m-2 h-[4rem] w-full rounded-sm justify-around items-center cursor-pointer "
             >

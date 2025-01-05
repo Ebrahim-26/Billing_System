@@ -10,6 +10,7 @@ import CustomTextField from "../level_1/CustomTextField";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useGlobal } from "@/context/GlobalContext";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 function GenerateInvoicePage() {
   const { loginOpen } = useGlobal();
@@ -204,26 +205,27 @@ function GenerateInvoicePage() {
           <div className="gap-y-2 rounded-md">
             {selectedServiceList.map((item, index) => (
               <div key={index} className="flex gap-4 my-2">
-                <div className="text-slate-900 bg-slate-200 rounded-md p-4 w-[20%] text-center">
+                <div className="text-slate-900 bg-slate-200 rounded-md p-4 w-[80%] text-center">
                   {item.name}
                 </div>
-                <div className="text-slate-200 bg-slate-600 rounded-md p-4 w-[5rem] text-center">
+                <div className="text-slate-200 bg-slate-600 rounded-md p-4 w-[10%] text-center">
                   {item.quantity}
                 </div>
-                <CustomButton
-                  onClick={() => {
-                    setSelectedServiceList((prevList) =>
-                      prevList.filter((_, i) => i !== index)
-                    );
+                <div className="w-[10%]">
+                  <CustomButton
+                    onClick={() => {
+                      setSelectedServiceList((prevList) =>
+                        prevList.filter((_, i) => i !== index)
+                      );
 
-                    setServiceLoad((prevLoad) =>
-                      prevLoad.filter((_, i) => i !== index)
-                    );
-                  }}
-                  sx={{ backgroundColor: "red", color: "white" }}
-                >
-                  Delete
-                </CustomButton>
+                      setServiceLoad((prevLoad) =>
+                        prevLoad.filter((_, i) => i !== index)
+                      );
+                    }}
+                    sx={{ backgroundColor: "#1f1f1f", color: "white" }}
+                    startIcon={<DeleteOutlineIcon />}
+                  />
+                </div>
               </div>
             ))}
           </div>

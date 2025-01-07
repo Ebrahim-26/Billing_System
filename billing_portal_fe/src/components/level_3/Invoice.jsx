@@ -25,7 +25,6 @@ function Invoice() {
     };
     fetchData();
   }, []);
-  console.log("invoiceData:", invoiceData);
   const style = fontStyle();
   return (
     <div className="w-[14.8cm] h-[21cm] p-[20px] bg-white shadow-2xl">

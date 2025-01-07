@@ -160,6 +160,7 @@ function GenerateInvoicePage() {
             label="Date"
             value={date}
             setSelectedData={setDate}
+            readOnly
           />
         </div>
         <div className="my-5 ">
@@ -189,11 +190,11 @@ function GenerateInvoicePage() {
                   if (existingServiceIndex !== -1) {
                     const updatedServiceList = [...selectedServiceList];
                     updatedServiceList[existingServiceIndex].quantity +=
-                      counter; 
+                      counter;
                     setSelectedServiceList(updatedServiceList);
                     const updatedServiceLoad = [...serviceLoad];
                     updatedServiceLoad[existingServiceIndex].quantity +=
-                      counter; 
+                      counter;
                     setServiceLoad(updatedServiceLoad);
                   } else {
                     setSelectedServiceList((prev) => [
@@ -322,7 +323,7 @@ function GenerateInvoicePage() {
             readOnly
           />
         </div>
-        <div className="bg-slate-500 mt-5 h-[5rem]  rounded-sm ">
+        <div className="bg-black mt-5 h-[5rem]  rounded-sm ">
           <CustomButton sx={{ color: "white" }} type="submit">
             Generate
           </CustomButton>

@@ -3,8 +3,8 @@ import CustomButton from "../level_1/CustomButton";
 import { Box, Modal } from "@mui/material";
 import CustomTextField from "../level_1/CustomTextField";
 import axios from "axios";
-function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
-  const [paymentMode, setPaymentMode] = useState();
+function PaymentTermModal({ paymentTermModal, setPaymentTermModal }) {
+  const [paymentTerm, setPaymentTerm] = useState();
   const [loading, setLoading] = useState(false);
 
   const style = {
@@ -20,8 +20,8 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
     borderRadius: "5px",
   };
   const handleClose = () => {
-    setPaymentModeModal(false);
-    setPaymentMode("");
+    setPaymentTermModal(false);
+    setPaymentTerm("");
   };
 
   const handleSubmit = async () => {
@@ -30,13 +30,13 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/payment_modes/",
-        { name: paymentMode },
+        "http://localhost:8000/api/payment_terms/",
+        { name: paymentTerm },
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.status === 201) {
-        setPaymentModeModal(false);
-        setPaymentMode(""); // Clear the input field
+        setPaymentTermModal(false);
+        setPaymentMode("");
       } else {
         console.log("Unexpected response:", response.status);
       }
@@ -52,7 +52,7 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
   return (
     <form onSubmit={handleSubmit}>
       <Modal
-        open={paymentModeModal}
+        open={paymentTermModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -60,16 +60,16 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
         <Box sx={style}>
           <div className="flex flex-col gap-y-[1rem]">
             <CustomTextField
-              label="Payment Mode"
-              value={paymentMode}
-              setValue={setPaymentMode}
+              label="Payment Term"
+              value={paymentTerm}
+              setValue={setPaymentTerm}
             />
             <CustomButton
               onClick={handleSubmit}
               type="submit"
               sx={{ backgroundColor: "black", color: "white" }}
             >
-              Add Payment Mode
+              Add Payment Term
             </CustomButton>
           </div>
         </Box>
@@ -78,4 +78,4 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
   );
 }
 
-export default PaymentModeModal;
+export default PaymentTermModal;

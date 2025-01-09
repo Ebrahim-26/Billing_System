@@ -293,11 +293,11 @@ function GenerateInvoicePage() {
               setPaymentTermModal={setPaymentTermModal}
             />
           </div>
-
           <div>
             <CustomButton
+              onClick={() => setPaymentTermModal(true)}
               sx={{ color: "white", backgroundColor: "black" }}
-              type="submit"
+              type="button"
             >
               Add Term
             </CustomButton>

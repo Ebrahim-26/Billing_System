@@ -12,6 +12,8 @@ import axios from "axios";
 import { useGlobal } from "@/context/GlobalContext";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useRouter } from "next/navigation";
+import PaymentModeModal from "../level_2/PaymentModeModal";
+import PaymentTermModal from "../level_2/PaymentTermModal";
 function GenerateInvoicePage() {
   const router = useRouter();
   const { loginOpen } = useGlobal();
@@ -25,6 +27,9 @@ function GenerateInvoicePage() {
   const [estimationDate, setEstimationDate] = useState();
   const [selectedServiceList, setSelectedServiceList] = useState([]);
   const [paidAmount, setPaidAmount] = useState();
+  const [paymentModeModal, setPaymentModeModal] = useState(false);
+  const [paymentTermModal, setPaymentTermModal] = useState(false);
+
   //Data from Api
   const [invoiceDropdownData, setInvoiceDropdownData] = useState();
   const [serviceLoad, setServiceLoad] = useState([]);
@@ -263,6 +268,19 @@ function GenerateInvoicePage() {
               selectedData={paymentMode}
             />
           </div>
+          <div>
+            <CustomButton
+              onClick={() => setPaymentModeModal(true)}
+              sx={{ color: "white", backgroundColor: "black" }}
+              type="button"
+            >
+              Add Mode
+            </CustomButton>
+            <PaymentModeModal
+              paymentModeModal={paymentModeModal}
+              setPaymentModeModal={setPaymentModeModal}
+            />
+          </div>
           <div className="w-[100%]">
             <CustomSelect
               setSelectedData={setPaymentTerm}
@@ -270,6 +288,19 @@ function GenerateInvoicePage() {
               label="Payment Term"
               selectedData={paymentTerm}
             />
+            <PaymentTermModal
+              paymentTermModal={paymentTermModal}
+              setPaymentTermModal={setPaymentTermModal}
+            />
+          </div>
+
+          <div>
+            <CustomButton
+              sx={{ color: "white", backgroundColor: "black" }}
+              type="submit"
+            >
+              Add Term
+            </CustomButton>
           </div>
         </div>
         <div className="my-5">

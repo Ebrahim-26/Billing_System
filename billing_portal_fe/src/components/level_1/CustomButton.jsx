@@ -12,6 +12,7 @@ function CustomButton({
   fontSize,
   onClick,
   disabled,
+  type,
   ...props
 }) {
   const style = fontStyle();
@@ -19,6 +20,7 @@ function CustomButton({
   return (
     <div className="w-[100%] h-[100%] ">
       <Button
+        type={type}
         fullWidth
         disabled={disabled}
         onClick={onClick}

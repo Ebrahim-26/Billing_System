@@ -53,7 +53,16 @@ function Invoice() {
           <p style={style.invoiceMain}>Bill To:</p>
           <p style={style.invoiceMain}>{invoiceData?.client.name}</p>
           <p style={style.invoicePara}>{invoiceData?.client.gst_number}</p>
-          <p style={style.invoicePara}>{invoiceData?.client.address}</p>
+          <div className="w-[9rem]">
+            <p style={style.invoicePara}>
+              {invoiceData?.client?.address?.line1}, 
+              {invoiceData?.client?.address?.line2}, 
+              {invoiceData?.client?.address?.city}, 
+              {invoiceData?.client?.address?.state}, 
+              {invoiceData?.client?.address?.district}, 
+              {invoiceData?.client?.address?.pincode}
+            </p>
+          </div>
           <p style={style.invoicePara}>{invoiceData?.client.email}</p>
           <p style={style.invoicePara}>{invoiceData?.client.contact_number}</p>
         </div>

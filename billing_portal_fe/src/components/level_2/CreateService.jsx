@@ -35,7 +35,7 @@ function CreateService({ open, setOpen, handleClose }) {
       if (response.status === 201) {
         window.location.reload(); // Correctly reloads the page
       } else {
-        console.error("Error generating invoice");
+        console.error("Error posting data");
       }
     } catch (error) {
       console.error("Error posting data:", error);

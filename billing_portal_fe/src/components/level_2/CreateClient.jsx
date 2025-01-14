@@ -155,12 +155,12 @@ function CreateClient({ open, handleClose }) {
               <CustomTextField label="Note" setValue={setNote} value={note} />
             </div>
             <p style={{ fontSize: "18px", fontWeight: "bold" }}>
-              Client's Detail
+              Client&#39;s Detail
             </p>
 
             <div className="grid grid-cols-3 gap-3">
               <CustomTextField
-                label="Client's Name"
+                label="Client&#39;s Name"
                 setValue={setUsersName}
                 value={usersName}
               />

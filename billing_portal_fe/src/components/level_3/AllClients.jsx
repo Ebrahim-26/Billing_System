@@ -10,7 +10,7 @@ import axios from "axios";
 import CustomButton from "../level_1/CustomButton";
 import CreateClient from "../level_2/CreateClient";
 
-export default function AllClient({ onClick }) {
+export default function AllClient() {
   const [clientList, setClientList] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [descriptions, setDescriptions] = useState({}); // Map of panel IDs to descriptions

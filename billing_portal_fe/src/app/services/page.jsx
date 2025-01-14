@@ -4,7 +4,7 @@ import ViewServices from "@/components/level_3/ViewServices";
 import React from "react";
 import { useState } from "react";
 
-function page() {
+function Page() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -16,4 +16,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

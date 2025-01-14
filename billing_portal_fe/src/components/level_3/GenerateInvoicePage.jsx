@@ -151,8 +151,8 @@ function GenerateInvoicePage() {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="p-10 w-[100%]">
+    <form onSubmit={handleSubmit} >
+      <div className="p-10 w-[100%] border-2 border-black rounded-md shadow-2xl">
         <div className="flex gap-5 w-[100%]">
           <CustomTextField
             id="filled-basic"

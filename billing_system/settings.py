@@ -21,13 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dpaz&=gkvl9i5oiejl$8-l%b!u+u1jtn49!py*4g6%ju780as6'
+SECRET_KEY = SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",'django-insecure-dpaz&=gkvl9i5oiejl$8-l%b!u+u1jtn49!py*4g6%ju780as6')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+DJANGO_ENV = os.environ.get("DJANGO_ENV", "development")
 
 # Application definition
 
@@ -133,9 +129,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
-]
 
 
 REST_FRAMEWORK = {
@@ -151,14 +144,11 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "Access-Control-Allow-Origin",
 ]
+
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [ 
-        'http://localhost:3000', 
-]
 
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True
+if DJANGO_ENV == 'production':
+    from .production_settings import *  
+else:
+    from .development_settings import *  

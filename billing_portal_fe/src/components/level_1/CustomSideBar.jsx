@@ -20,19 +20,36 @@ import { useRouter } from "next/navigation";
 
 function CustomSideBar() {
   const Router = useRouter();
-  const [open, setOpen] = useState(() => {
-    const storedState = localStorage.getItem("sideBar");
-    return storedState !== null ? JSON.parse(storedState) : true;
-  });
+  const [open, setOpen] = useState(true);
+
   useEffect(() => {
-    localStorage.setItem("sideBar", JSON.stringify(open));
+    if (typeof window !== "undefined") {
+      const storedState = localStorage.getItem("sideBar");
+      if (storedState !== null) {
+        try {
+          setOpen(JSON.parse(storedState));
+        } catch (error) {
+          console.error("Error parsing stored state:", error);
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("sideBar", JSON.stringify(open));
+      } catch (error) {
+        console.error("Error saving state to localStorage:", error);
+      }
+    }
   }, [open]);
   const listData = [
     { text: "Generate Invoice", icon: <PrintIcon />, link: "/" },
     { text: "All Invoice", icon: <ReceiptIcon />, link: "all-invoices" },
     { text: "Services", icon: <HandymanIcon />, link: "services" },
     { text: "Clients", icon: <PersonIcon />, link: "clients" },
-    { text: "Staffs", icon: <Groups2Icon />, link: "staffs" },
+    // { text: "Staffs", icon: <Groups2Icon />, link: "staffs" },
   ];
   return (
     <div

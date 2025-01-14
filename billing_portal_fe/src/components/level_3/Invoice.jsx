@@ -30,7 +30,7 @@ function Invoice() {
     <div className="w-[14.8cm] h-[21cm] p-[20px] bg-white shadow-2xl">
       <div className="flex justify-between">
         <div className="pl-3 mb-2">
-          <Image src="/logo/tarvizLogo.png" width={65} height={66} />
+          <Image src="/logo/tarvizLogo.png" width={65} height={66} alt="Logo" />
         </div>
         <div>
           <p style={{ fontSize: "14px", fontWeight: "bold" }}>INVOICE</p>
@@ -55,11 +55,11 @@ function Invoice() {
           <p style={style.invoicePara}>{invoiceData?.client.gst_number}</p>
           <div className="w-[9rem]">
             <p style={style.invoicePara}>
-              {invoiceData?.client?.address?.line1}, 
-              {invoiceData?.client?.address?.line2}, 
-              {invoiceData?.client?.address?.city}, 
-              {invoiceData?.client?.address?.state}, 
-              {invoiceData?.client?.address?.district}, 
+              {invoiceData?.client?.address?.line1},
+              {invoiceData?.client?.address?.line2},
+              {invoiceData?.client?.address?.city},
+              {invoiceData?.client?.address?.state},
+              {invoiceData?.client?.address?.district},
               {invoiceData?.client?.address?.pincode}
             </p>
           </div>

@@ -6,6 +6,7 @@ import {
   View,
   Document,
   Page,
+  Image,
   PDFViewer,
   BlobProvider,
 } from "@react-pdf/renderer";
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 20,
     fontSize: 12,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1010",
   },
   header: {
     flexDirection: "row",
@@ -64,6 +65,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: 10,
   },
+  totalText: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  totalValue: {
+    display: "flex",
+    justifyContent: "flex-start",
+  },
 });
 
 // Define the Invoice Component
@@ -94,35 +103,86 @@ function DownloadInvoice() {
   const InvoicePDF = () => (
     <Document>
       <Page style={styles.page}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title} className="font-extrabold">
-              Tarviz DigiMart
-            </Text>
-            <Text>Nungambakkam, Chennai</Text>
-            <Text>+91 9876543210</Text>
-          </View>
-          <View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            src="/logo/tarvizLogo.png" // Replace with your image path or URL
+            style={{ width: 50 }} // Adjust the width and height as needed
+          />{" "}
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+            }}
+          >
             <Text style={styles.title}>INVOICE</Text>
             <Text>Invoice Number: {invoiceData?.number}</Text>
             <Text>Date: {invoiceData?.date}</Text>
           </View>
         </View>
+        <View>
+          <View>
+            <Text style={{ fontSize: "16px", fontWeight: "bold" }}>
+              Tarviz DigiMart
+            </Text>
+            <Text style={{ marginBottom: "2px" }}>Nungambakkam, Chennai</Text>
+            <Text>+91 9876543210</Text>
+          </View>
+        </View>
 
         {/* Bill To Section */}
-        <View style={styles.section}>
-          <Text style={styles.title} className="bg-purple-500">
-            Bill To:
-          </Text>
-          <Text>{invoiceData?.client?.name}</Text>
-          <Text>{invoiceData?.client?.address?.line1}</Text>
-          <Text>{invoiceData?.client?.address?.city}</Text>
-          <Text>Email: {invoiceData?.client?.email}</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ marginTop: "10px" }}>
+            <Text style={styles.title}>Bill To:</Text>
+            <Text>{invoiceData?.client?.name}</Text>
+            <Text>{invoiceData?.client?.address?.line1}</Text>
+            <Text>{invoiceData?.client?.address?.city}</Text>
+            <Text>Email: {invoiceData?.client?.email}</Text>
+          </View>
+
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+            }}
+          >
+            <View>
+              <Text>Payment Term:</Text>
+              <Text>Payment Mode:</Text>
+            </View>
+            <View>
+              <Text>{invoiceData?.payment_term.name}</Text>
+              <Text>{invoiceData?.payment_mode.name}</Text>
+            </View>
+          </View>
         </View>
 
         {/* Table Section */}
-        <View style={styles.table}>
+        <View
+          style={{
+            display: "table",
+            width: "100%",
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: "#e0e0e0",
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        >
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={styles.tableCell}>#</Text>
             <Text style={styles.tableCell}>Services</Text>
@@ -142,17 +202,34 @@ function DownloadInvoice() {
         </View>
 
         {/* Total Section */}
-        <View style={styles.totalSection}>
-          <Text style={styles.totalLabel}>Sub Total:</Text>
-          <Text>{invoiceData?.total_amount * 0.82}</Text>
-        </View>
-        <View style={styles.totalSection}>
-          <Text style={styles.totalLabel}>GST:</Text>
-          <Text>18%</Text>
-        </View>
-        <View style={styles.totalSection}>
-          <Text style={styles.totalLabel}>Total:</Text>
-          <Text>{invoiceData?.total_amount}</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              fontWeight: "bold",
+            }}
+          >
+            <Text style={{ fontWeight: "extrabold" }}>Sub Total: </Text>
+            <Text>GST: </Text>
+            <Text>Total: </Text>
+            <Text>Paid: </Text>
+            <Text style={{ fontSize: "16px" }}>Due: </Text>
+          </View>
+          <View>
+            <Text>{invoiceData?.total_amount * 0.82}</Text>
+            <Text>18%</Text>
+            <Text>{invoiceData?.total_amount}</Text>
+            <Text>{invoiceData?.amount_paid}</Text>
+            <Text style={{ fontSize: "16px" }}>{invoiceData?.due}</Text>
+          </View>
         </View>
       </Page>
     </Document>
@@ -162,7 +239,12 @@ function DownloadInvoice() {
     <div className="h-2 mt-2">
       <BlobProvider document={<InvoicePDF />}>
         {({ url }) => (
-          <a className="font-bold" href={url} target="_blank" rel="noopener noreferrer">
+          <a
+            className="font-bold"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Download PDF
           </a>
         )}

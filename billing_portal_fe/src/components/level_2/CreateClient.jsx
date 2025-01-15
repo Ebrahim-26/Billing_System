@@ -104,24 +104,24 @@ function CreateClient({ open, handleClose }) {
               Companies Detail
             </p>
             <div className="grid grid-cols-4 gap-3">
-              <CustomTextField label="Name" setValue={setName} value={name} />
+              <CustomTextField label="Name*" setValue={setName} value={name} />
               <CustomTextField
-                label="GST Number"
+                label="GST Number*"
                 setValue={setGstNumber}
                 value={gstNumber}
               />
               <CustomTextField
-                label="Contact Number"
+                label="Contact Number*"
                 setValue={setContactNumber}
                 value={contactNumber}
               />
               <CustomTextField
-                label="Email"
+                label="Email*"
                 setValue={setEmail}
                 value={email}
               />
               <CustomTextField
-                label="Address Line 1"
+                label="Address Line 1*"
                 setValue={setLine1}
                 value={line1}
               />
@@ -130,19 +130,19 @@ function CreateClient({ open, handleClose }) {
                 setValue={setLine2}
                 value={line2}
               />
-              <CustomTextField label="City" setValue={setCity} value={city} />
+              <CustomTextField label="City*" setValue={setCity} value={city} />
               <CustomTextField
-                label="State"
+                label="State*"
                 setValue={setState}
                 value={state}
               />
               <CustomTextField
-                label="District"
+                label="District*"
                 setValue={setDistrict}
                 value={district}
               />
               <CustomTextField
-                label="Pincode"
+                label="Pincode*"
                 setValue={setPincode}
                 value={pincode}
               />
@@ -160,17 +160,17 @@ function CreateClient({ open, handleClose }) {
 
             <div className="grid grid-cols-3 gap-3">
               <CustomTextField
-                label="Client&#39;s Name"
+                label="Client&#39;s Name*"
                 setValue={setUsersName}
                 value={usersName}
               />
               <CustomTextField
-                label="Email"
+                label="Email*"
                 setValue={setUsersEmail}
                 value={usersEmail}
               />
               <CustomTextField
-                label="Contact Number"
+                label="Contact Number*"
                 setValue={setClientContactNumber}
                 value={clientContactNumber}
               />

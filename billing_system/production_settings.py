@@ -1,3 +1,4 @@
+import os
 DEBUG = False
 ALLOWED_HOSTS = ['www.tarvizdigimart.com','13.127.183.30']
 

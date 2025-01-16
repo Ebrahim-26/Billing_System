@@ -20,3 +20,17 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 
 DEBUG = True
+
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Add Next.js static files directory
+NEXT_STATIC_DIR = os.path.join(BASE_DIR, 'billing_portal_fe', '.next', 'static')
+STATICFILES_DIRS = [
+    NEXT_STATIC_DIR,  # Add Next.js static files to Django
+]
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

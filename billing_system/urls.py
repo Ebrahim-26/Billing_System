@@ -33,14 +33,14 @@ router.register(r'auth', SessionAuthViewSet, basename='auth')
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/get-invoice-fields/', InvoiceDropdownDataView.as_view(), name='get-invoice-fields'),
+    path('management-portal/admin/', admin.site.urls),
+    path('management-portal/api/', include(router.urls)),
+    path('management-portal/api/get-invoice-fields/', InvoiceDropdownDataView.as_view(), name='get-invoice-fields'),
     path(
-        "swagger/",
+        "management-portal/swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("management-portal/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("swagger.json", schema_view.without_ui(cache_timeout=0), name="schema-json"),
 ]

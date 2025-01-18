@@ -33,9 +33,9 @@ router.register(r'auth', SessionAuthViewSet, basename='auth')
 
 
 urlpatterns = [
-    path('management-portal/admin/', admin.site.urls),
-    path('management-portal/api/', include(router.urls)),
-    path('management-portal/api/get-invoice-fields/', InvoiceDropdownDataView.as_view(), name='get-invoice-fields'),
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api/get-invoice-fields/', InvoiceDropdownDataView.as_view(), name='get-invoice-fields'),
     path(
         "management-portal/swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),

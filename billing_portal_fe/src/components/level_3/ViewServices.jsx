@@ -19,7 +19,7 @@ export default function ViewServices({ onClick }) {
     if (!isExpanded || descriptions[id]) return; // Avoid re-fetching if already loaded
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/services/${id}/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services/${id}/`,
         {
           withCredentials: true,
         }
@@ -38,7 +38,7 @@ export default function ViewServices({ onClick }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/services/",
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services/`,
           {
             withCredentials: true,
           }

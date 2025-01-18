@@ -47,7 +47,7 @@ function GenerateInvoicePage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/get-invoice-fields/",
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/get-invoice-fields/`,
           {
             withCredentials: true,
           }
@@ -135,7 +135,7 @@ function GenerateInvoicePage() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/invoices/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/invoices/`,
         apiData
       );
       if (response.status === 201) {
@@ -151,7 +151,7 @@ function GenerateInvoicePage() {
     }
   };
   return (
-    <form onSubmit={handleSubmit} >
+    <form onSubmit={handleSubmit}>
       <div className="p-10 w-[100%] border-2 border-black rounded-md shadow-2xl">
         <div className="flex gap-5 w-[100%]">
           <CustomTextField

@@ -76,7 +76,7 @@ function DownloadInvoice() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/invoices/${invoiceID}/`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/invoices/${invoiceID}/`,
           {
             withCredentials: true,
           }
@@ -162,7 +162,12 @@ function DownloadInvoice() {
     <div className="h-2 mt-2">
       <BlobProvider document={<InvoicePDF />}>
         {({ url }) => (
-          <a className="font-bold" href={url} target="_blank" rel="noopener noreferrer">
+          <a
+            className="font-bold"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Download PDF
           </a>
         )}

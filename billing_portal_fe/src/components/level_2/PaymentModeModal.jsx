@@ -30,7 +30,7 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/payment_modes/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payment_modes/`,
         { name: paymentMode },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -50,7 +50,7 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <div onSubmit={handleSubmit}>
       <Modal
         open={paymentModeModal}
         onClose={handleClose}
@@ -74,7 +74,7 @@ function PaymentModeModal({ paymentModeModal, setPaymentModeModal }) {
           </div>
         </Box>
       </Modal>
-    </form>
+    </div>
   );
 }
 

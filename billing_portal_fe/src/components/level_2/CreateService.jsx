@@ -28,7 +28,7 @@ function CreateService({ open, setOpen, handleClose }) {
         is_available: isChecked,
       };
       const response = await axios.post(
-        "http://localhost:8000/api/services/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/services/`,
         payload // Your payload data
       );
 

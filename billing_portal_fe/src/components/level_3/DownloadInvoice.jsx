@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
     padding: 20,
     fontSize: 12,
     backgroundColor: "#1010",
+    height: "100vh",
+    width: "100vw",
   },
   header: {
     flexDirection: "row",
@@ -111,14 +113,27 @@ function DownloadInvoice() {
           }}
         >
           <Image
-            src="/logo/tarvizLogo.png" // Replace with your image path or URL
-            style={{ width: 50 }} // Adjust the width and height as needed
+            src="/logo/tarvizLogo.png" 
+            style={{ width: 50 }} 
+          />{" "}
+          <Image
+            src="/logo/tarvizLogo.png" 
+            style={{
+              position: "absolute",
+              top: "70%", 
+              left: "25%", 
+              transform: "translate(-50%, -50%)", 
+              width: "50%", 
+              height: "auto",
+              opacity: 0.03, 
+              zIndex: -1,
+            }} 
           />{" "}
           <View
             style={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "flex-end",
+              alignItems: "flex-end",
             }}
           >
             <Text style={styles.title}>INVOICE</Text>
@@ -206,29 +221,99 @@ function DownloadInvoice() {
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
           }}
+        >
+          <View>
+            <Text>Estimated Completion By: </Text>
+            <Text>{invoiceData?.estimated_completion_date}</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                fontWeight: "bold",
+              }}
+            >
+              <Text style={{ fontWeight: "extrabold" }}>Sub Total: </Text>
+              <Text>GST: </Text>
+              <Text>Total: </Text>
+              <Text>Paid: </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  border: "1",
+                  borderRight: "none",
+                  margin: "2px",
+                }}
+              >
+                Due:{" "}
+              </Text>
+            </View>
+            <View>
+              <Text>{invoiceData?.total_amount * 0.82}</Text>
+              <Text>18%</Text>
+              <Text>{invoiceData?.total_amount}</Text>
+              <Text>{invoiceData?.amount_paid}</Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  border: "1",
+                  borderLeft: "none",
+                  margin: "2px",
+                }}
+              >
+                {invoiceData?.due}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{ display: "flex", justifyContent: "flex-end", height: "50%" }}
         >
           <View
             style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              fontWeight: "bold",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            <Text style={{ fontWeight: "extrabold" }}>Sub Total: </Text>
-            <Text>GST: </Text>
-            <Text>Total: </Text>
-            <Text>Paid: </Text>
-            <Text style={{ fontSize: "16px" }}>Due: </Text>
-          </View>
-          <View>
-            <Text>{invoiceData?.total_amount * 0.82}</Text>
-            <Text>18%</Text>
-            <Text>{invoiceData?.total_amount}</Text>
-            <Text>{invoiceData?.amount_paid}</Text>
-            <Text style={{ fontSize: "16px" }}>{invoiceData?.due}</Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "col",
+                }}
+              >
+                <Text>Account Number:</Text>
+                <Text>Bank:</Text>
+                <Text>IFSC:</Text>
+              </View>
+              <View>
+                <Text>{""}</Text>
+                <Text>783456987</Text>
+                <Text>SBI</Text>
+                <Text>SBI0010</Text>
+              </View>
+            </View>
+            <View>
+              <Image src="/logo/sign.png" style={{ width: 50 }} />
+              <Text>Authorizer Signature</Text>
+            </View>
           </View>
         </View>
       </Page>

@@ -20,7 +20,7 @@ function CustomSelectField({
         options={data}
         disabled={disabled}
         onChange={handleChange}
-        getOptionLabel={(item) => item.name}
+        getOptionLabel={(item) => item?.name}
         renderOption={(props, item) => {
           const { key, ...restProps } = props;
           return (

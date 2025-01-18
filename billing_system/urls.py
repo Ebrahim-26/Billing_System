@@ -37,7 +37,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/get-invoice-fields/', InvoiceDropdownDataView.as_view(), name='get-invoice-fields'),
     path(
-        "management-portal/swagger/",
+        "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),

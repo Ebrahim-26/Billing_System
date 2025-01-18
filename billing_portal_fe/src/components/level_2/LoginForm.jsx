@@ -47,7 +47,7 @@ export default function LoginForm() {
         const postData = { username: user.username, password: user.password };
         try {
           const response = await axios.post(
-            "http://localhost:8000/api/auth/login/",
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login/`,
             postData
           );
           setPostResponse(response);

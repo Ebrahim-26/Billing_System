@@ -30,7 +30,7 @@ function PaymentTermModal({ paymentTermModal, setPaymentTermModal }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/payment_terms/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payment_terms/`,
         { name: paymentTerm },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -50,7 +50,7 @@ function PaymentTermModal({ paymentTermModal, setPaymentTermModal }) {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <div onSubmit={handleSubmit}>
       <Modal
         open={paymentTermModal}
         onClose={handleClose}
@@ -74,7 +74,7 @@ function PaymentTermModal({ paymentTermModal, setPaymentTermModal }) {
           </div>
         </Box>
       </Modal>
-    </form>
+    </div>
   );
 }
 

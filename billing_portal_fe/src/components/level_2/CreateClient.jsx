@@ -59,7 +59,7 @@ function CreateClient({ open, handleClose }) {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/api/clients/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clients/`,
         payload
       );
 

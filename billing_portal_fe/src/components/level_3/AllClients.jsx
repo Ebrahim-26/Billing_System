@@ -24,7 +24,7 @@ export default function AllClient() {
     if (!isExpanded || descriptions[id]) return; // Avoid re-fetching if already loaded
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/clients/${id}/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clients/${id}/`,
         {
           withCredentials: true,
         }
@@ -52,9 +52,12 @@ export default function AllClient() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/clients/", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clients/`,
+          {
+            withCredentials: true,
+          }
+        );
         setClientList(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -131,7 +134,7 @@ export default function AllClient() {
                                   ${
                                     descriptions[item.id]?.address?.pincode ||
                                     ""
-                                  }`
+                                  }`,
                         },
                         {
                           label: "Total Spend",

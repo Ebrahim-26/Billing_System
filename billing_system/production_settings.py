@@ -1,6 +1,7 @@
 import os
 from .settings import BASE_DIR
 
+print("In prod settings")
 DEBUG = False
 ALLOWED_HOSTS = ['www.tarvizdigimart.com','13.127.183.30']
 

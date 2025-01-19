@@ -20,11 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",'django-insecure-dpaz&=gkvl9i5oiejl$8-l%b!u+u1jtn49!py*4g6%ju780as6')
+# SECURITY WARNING: keep the secret key used in production secret
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY",'django-insecure-dpaz&=gkvl9i5oiejl$8-l%b!u+u1jtn49!py*4g6%ju780as6')
 
 DJANGO_ENV = os.environ.get("DJANGO_ENV", "development")
-
+print("******")
+print(DJANGO_ENV)
 # Application definition
 
 INSTALLED_APPS = [
@@ -147,8 +148,43 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+print("In prod settings")
+DEBUG = False
+ALLOWED_HOSTS = ['www.tarvizdigimart.com','13.127.183.30']
 
-if DJANGO_ENV == 'production':
-    from .production_settings import *  
-else:
-    from .development_settings import *  
+CORS_ALLOWED_ORIGINS = [
+    'https://www.tarvizdigimart.com',
+    "http://13.127.183.30",
+    "https://13.127.183.30",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.tarvizdigimart.com',
+    "http://13.127.183.30",
+    "https://13.127.183.30",
+]
+
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+
+DEBUG = True
+
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Add Next.js static files directory
+NEXT_STATIC_DIR = os.path.join(BASE_DIR, 'billing_portal_fe', '.next', 'static')
+STATICFILES_DIRS = [
+    NEXT_STATIC_DIR,  # Add Next.js static files to Django
+]
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+~
+~
+  

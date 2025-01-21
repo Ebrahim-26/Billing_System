@@ -38,11 +38,11 @@ export const fontStyle = () => {
       fontWeight: prop.fontWeight.bold,
     },
     invoiceMain: {
-      fontSize: prop.fontSize.twelve,
+      fontSize: '14pt',
       fontWeight: prop.fontWeight.bold,
     },
     invoicePara: {
-      fontSize: prop.fontSize.twelve,
+      fontSize: '12pt',
       fontWeight: prop.fontWeight.regular,
     },
   };

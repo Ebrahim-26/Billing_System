@@ -225,7 +225,7 @@ function DownloadInvoice() {
           }}
         >
           <View>
-            <Text>Estimated Completion By: </Text>
+            <Text style={{fontSize:17}}>Estimated Completion By: </Text>
             <Text>{invoiceData?.estimated_completion_date}</Text>
           </View>
           <View
@@ -243,35 +243,21 @@ function DownloadInvoice() {
                 fontWeight: "bold",
               }}
             >
-              <Text style={{ fontWeight: "extrabold" }}>Sub Total: </Text>
-              <Text>GST: </Text>
-              <Text>Total: </Text>
-              <Text>Paid: </Text>
+              <Text>
+                Sub Total: {invoiceData?.total_amount * 0.82} </Text>
+              <Text>GST: 18% </Text>
+              <Text>Total:{invoiceData?.total_amount} </Text>
+              <Text>Paid:{invoiceData?.amount_paid} </Text>
               <Text
                 style={{
                   fontSize: "16px",
-                  border: "1",
-                  borderRight: "none",
-                  margin: "2px",
+                  padding: "5px",
+                  backgroundColor:'#f20815',
+                  fontWeight: 'bold',
+                  borderRadius:'2px',
                 }}
               >
-                Due:{" "}
-              </Text>
-            </View>
-            <View>
-              <Text>{invoiceData?.total_amount * 0.82}</Text>
-              <Text>18%</Text>
-              <Text>{invoiceData?.total_amount}</Text>
-              <Text>{invoiceData?.amount_paid}</Text>
-              <Text
-                style={{
-                  fontSize: "16px",
-                  border: "1",
-                  borderLeft: "none",
-                  margin: "2px",
-                }}
-              >
-                {invoiceData?.due}
+                Due:  {invoiceData?.due}
               </Text>
             </View>
           </View>
@@ -299,15 +285,14 @@ function DownloadInvoice() {
                   flexDirection: "col",
                 }}
               >
-                <Text>Account Number:</Text>
-                <Text>Bank:</Text>
-                <Text>IFSC:</Text>
-              </View>
-              <View>
-                <Text>{""}</Text>
-                <Text>783456987</Text>
-                <Text>SBI</Text>
-                <Text>SBI0010</Text>
+                <Text
+                 style={{fontWeight: "bold"}}
+                >
+                  Bank Details
+                </Text>
+                <Text>Account Number: 783456987</Text>
+                <Text>Bank:SBI</Text>
+                <Text>IFSC:SBI001</Text>
               </View>
             </View>
             <View>

@@ -27,10 +27,6 @@ export default function RootLayout({ children }) {
       >
         <GlobalProvider>
           <div className="flex">
-            <div>
-              <CustomSideBar />
-            </div>
-            {/* <LoginForm /> */}
             <div className="w-[100%] h-[100%]">{children}</div>
           </div>
         </GlobalProvider>

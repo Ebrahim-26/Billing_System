@@ -10,8 +10,7 @@ import axios from "axios";
 import CustomButton from "../level_1/CustomButton";
 import CreateClient from "../level_2/CreateClient";
 
-export default function AllClient() {
-  const [clientList, setClientList] = useState([]);
+export default function AllClient({ clientList }) {
   const [expanded, setExpanded] = useState(false);
   const [descriptions, setDescriptions] = useState({}); // Map of panel IDs to descriptions
 
@@ -49,29 +48,12 @@ export default function AllClient() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clients/`,
-          {
-            withCredentials: true,
-          }
-        );
-        setClientList(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
-    <div className="w-[50vw] border-2 border-black p-10 rounded-md shadow-2xl">
+    <div className="w-full border-2 border-black rounded-md shadow-2xl">
       {clientList?.map((item, index) => (
         <>
           <Accordion
-            className="w-full "
+            className="w-full bg-[#1b1b1d] text-white "
             key={index}
             expanded={expanded === `panel${index}`}
             onChange={handleChange(`panel${index}`, item.id)}
@@ -82,16 +64,10 @@ export default function AllClient() {
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
             >
-              <Typography
-                component="span"
-                sx={{ width: "5%", fontWeight: "bold" }}
-              >
+              <Typography component="span" sx={{ width: "5%" }}>
                 {index + 1}
               </Typography>
-              <Typography
-                component="span"
-                sx={{ width: "33%", flexShrink: 0, fontWeight: "bold" }}
-              >
+              <Typography component="span" sx={{ width: "33%", flexShrink: 0 }}>
                 {item?.name}
               </Typography>
             </AccordionSummary>
@@ -184,7 +160,7 @@ export default function AllClient() {
 
       <div className="mt-4 h-[3rem]">
         <CustomButton
-          sx={{ backgroundColor: "black", color: "white" }}
+          sx={{ backgroundColor: "#1b1b1d", color: "white" }}
           onClick={handleOpen}
         >
           Add new client

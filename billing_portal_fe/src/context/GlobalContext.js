@@ -52,8 +52,8 @@ export const GlobalProvider = ({ children }) => {
     // Store isLoggedIn as a JSON string in the cookie
     document.cookie = `isLoggedIn=${JSON.stringify(user.isLoggedIn)}; path=/`;
   }, [user]);
-  console.log(loginOpen, "Login OPen");
-  console.log(user, "USER");
+  // console.log(loginOpen, "Login OPen");
+  // console.log(user, "USER");
   return (
     <GlobalContext.Provider
       value={{

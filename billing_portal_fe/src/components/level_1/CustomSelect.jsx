@@ -39,7 +39,9 @@ export default function CustomSelect({
           },
         }}
       >
-        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+        <InputLabel autoFocus id="demo-simple-select-label">
+          {label}
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

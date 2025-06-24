@@ -146,7 +146,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
+CORS_ALLOW_ALL_ORIGINS = True  # Django 3.0+
 
 if DJANGO_ENV == 'production':
     from .production_settings import *  

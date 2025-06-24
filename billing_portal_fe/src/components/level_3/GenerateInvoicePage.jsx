@@ -59,7 +59,7 @@ function GenerateInvoicePage() {
       }
     };
     fetchData();
-  }, [loginOpen]);
+  }, [loginOpen, paymentModeModal,paymentTermModal]);
 
   const [apiData, setApiData] = useState({
     number: null,

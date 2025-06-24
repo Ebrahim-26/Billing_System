@@ -51,7 +51,7 @@ export default function AllInvoiceTable() {
 
   return (
     <div className=" border-2 border-black p-10 rounded-md shadow-2xl">
-      <TableContainer component={Paper} sx={{ width: "40vw" }}>
+      <TableContainer component={Paper} sx={{ width: "100%" }}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -65,7 +65,8 @@ export default function AllInvoiceTable() {
             {allInvoiceData.map((item, index) => (
               <StyledTableRow
                 key={index}
-                onClick={() => router.push(`/invoice/${item.id}`)}
+                // onClick={() => router.push(`/invoice/${item.id}`)}
+                onClick={() => window.open(`/invoice/${item.id}`, "_blank")}
                 component={Box}
               >
                 <StyledTableCell align="center">{item.number}</StyledTableCell>

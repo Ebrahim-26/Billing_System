@@ -17,6 +17,7 @@ function CustomTextField({
       label={label}
       variant={variant}
       value={value || ""}
+      autoFocus
       InputProps={{
         readOnly: readOnly, // Conditionally apply the readOnly property
       }}

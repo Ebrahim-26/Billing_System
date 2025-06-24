@@ -38,7 +38,7 @@ A simple and intuitive billing system designed to streamline invoice generation 
 
 ## 🛠️ Tech Stack
 
-- Frontend: React
+- Frontend: ReactJs, Nextjs, JavaScript, Tailwind, Mui
 - Backend: Django
 - Database: PostGresql
 
